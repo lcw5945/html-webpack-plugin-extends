@@ -7,19 +7,29 @@ function HtmlWebpackPluginExtend(options) {
 
 HtmlWebpackPluginExtend.prototype.apply = function(compiler) {
    var paths = this.options.paths;
-      compiler.hooks.compilation.tap('HtmlWebpackPluginExtend', (compilation) => {
-        console.log('The compiler is starting a new compilation...');
+      
 
-        compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync(
-          'HtmlWebpackPluginExtend',
-          (data, cb) => {
+    if (compiler.hooks) {
+    // webpack 4 support
+    compiler.hooks.compilation.tap('HtmlWebpackPluginExtend', (compilation) => {
+        compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('HtmlWebpackPluginExtend',(htmlPluginData, callback) => {
             for (var i = paths.length - 1; i >= 0; i--) {
                 htmlPluginData.assets.js.unshift(paths[i]);
             }
-            cb(null, htmlPluginData)
+            callback(null, htmlPluginData)
           }
         )
-      })
+      })  } else {
+    // Hook into the html-webpack-plugin processing
+    compiler.plugin('compilation', function(compilation, options) {
+        compilation.plugin('html-webpack-plugin-before-html-processing', function(htmlPluginData, callback) {
+            for (var i = paths.length - 1; i >= 0; i--) {
+                htmlPluginData.assets.js.unshift(paths[i]);
+            }
+            callback(null, htmlPluginData);
+        });
+    });
+  }
 
 };
 
