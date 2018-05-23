@@ -22,6 +22,6 @@ HtmlWebpackPluginExtend.prototype.apply = function(compiler) {
       })
 
 };
-};
+
 
 module.exports = HtmlWebpackPluginExtend;
