@@ -10,16 +10,21 @@ HtmlWebpackPluginExtend.prototype.apply = function(compiler) {
       
 
     if (compiler.hooks) {
-    // webpack 4 support
-    compiler.hooks.compilation.tap('HtmlWebpackPluginExtend', (compilation) => {
-        compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('HtmlWebpackPluginExtend',(htmlPluginData, callback) => {
-            for (var i = paths.length - 1; i >= 0; i--) {
-                htmlPluginData.assets.js.unshift(paths[i]);
-            }
-            callback(null, htmlPluginData)
+      // webpack 4 support
+      compiler.hooks.compilation.tap('HtmlWebpackPluginExtend', (compilation) => {
+          if (!compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing) {
+            throw new Error('The expected HtmlWebpackPlugin hook was not found! Ensure HtmlWebpackPlugin is installed and' +
+              ' was initialized before this plugin.');
           }
-        )
-      })  } else {
+          compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('HtmlWebpackPluginExtend',(htmlPluginData, callback) => {
+              for (var i = paths.length - 1; i >= 0; i--) {
+                  htmlPluginData.assets.js.unshift(paths[i]);
+              }
+              callback(null, htmlPluginData)
+            }
+          )
+        })  
+  } else {
     // Hook into the html-webpack-plugin processing
     compiler.plugin('compilation', function(compilation, options) {
         compilation.plugin('html-webpack-plugin-before-html-processing', function(htmlPluginData, callback) {
