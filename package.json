@@ -1,0 +1,24 @@
+{
+  "name": "html-webpack-plugin-extends",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/lcw5945/html-webpack-plugin-extend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lcw5945/html-webpack-plugin-extend/issues"
+  },
+  "homepage": "https://github.com/lcw5945/html-webpack-plugin-extend#readme",
+  "_from": "html-webpack-plugin-extends@1.0.0",
+  "_resolved": "http://registry.npm.taobao.org/html-webpack-plugin-extends/download/html-webpack-plugin-extends-1.0.0.tgz",
+  "dependencies": {
+    "user": "0.0.0"
+  }
+}
